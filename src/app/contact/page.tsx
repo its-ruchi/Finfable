@@ -7,13 +7,13 @@ export default function Contact() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
       <h1 className="text-4xl md:text-5xl font-semibold text-foreground text-center tracking-tight">Contact Us</h1>
-      <p className="text-center text-muted-foreground max-w-2xl mx-auto mt-3">Have questions or need support? We're here to help — send us a message and we'll respond within 1-2 business days.</p>
+      <p className="text-center text-muted-foreground max-w-2xl mx-auto mt-3">Have questions or need support? We&apos;re here to help — send us a message and we&apos;ll respond within 1-2 business days.</p>
 
       <div className="mt-8">
         <Card className="bg-card rounded-xl shadow-md">
           <CardHeader>
             <CardTitle className="text-foreground">Get in Touch</CardTitle>
-            <p className="text-sm text-muted-foreground">Share details and we'll reach back with guidance.</p>
+            <p className="text-sm text-muted-foreground">Share details and we&apos;ll reach back with guidance.</p>
           </CardHeader>
           <CardContent>
             <form className="space-y-6">
