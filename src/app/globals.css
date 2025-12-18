@@ -1,0 +1,476 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Semantic color variables (hex values from the product brief) */
+  --color-primary-hex: #6D28D9;
+  --color-secondary-hex: #8B5CF6;
+  --color-bg-hex: #F5F3FF;
+  --color-footer-hex: #4C1D95;
+  --color-surface-hex: #FFFFFF;
+  --color-text-muted-hex: #C7BDF4;
+  --color-text-primary-hex: #FFFFFF;
+
+  /* HSL tokens used across Tailwind config (keep compatibility) */
+  --primary: 263 70% 50%; /* #6D28D9 */
+  --primary-foreground: 0 0% 100%; /* white */
+
+  --secondary: 258 90% 66%; /* #8B5CF6 */
+  --secondary-foreground: 220 12% 96%;
+
+  --background: 250 100% 99%; /* #F7F5FF light background */
+  --foreground: 215 28% 17%; /* #1F2937 primary text */
+  --body-text-hex: #1F2937;
+  --muted-text-hex: #6B7280;
+
+  --muted: 252 95% 85%; /* #C4B5FD muted purple */
+  --muted-foreground: 220 9% 46%; /* #6B7280 secondary text */
+
+  --card: 0 0% 100%; /* #FFFFFF */
+  --card-foreground: 215 28% 17%;
+
+  --border: 252 95% 96%; /* #EDE9FE */
+  --input: 0 0% 100%; /* white inputs */
+  --ring: var(--primary);
+
+  --accent: 252 95% 85%;
+  --accent-foreground: 260 40% 20%;
+
+  --destructive: 0 65% 50%;
+  --destructive-foreground: 0 0% 100%;
+
+  /* Map semantic names to compatible tokens for easy usage in components */
+  --color-primary: hsl(var(--primary));
+  --color-secondary: hsl(var(--secondary));
+  --color-bg: hsl(var(--background));
+  --color-footer-hsl: 263 67% 35%; /* hsl for #4C1D95 (approx) */
+  --color-footer: hsl(var(--color-footer-hsl));
+  --color-surface: hsl(var(--card));
+  --color-text-primary: var(--color-text-primary-hex);
+  --color-text-muted: var(--color-text-muted-hex);
+}
+
+/* Dark mode (basic darker variants) */
+.dark :root {
+  /* Dark mode tokens per spec */
+  --primary: 262 73% 66%; /* maps to #8B5CF6 */
+  --primary-foreground: 8 6% 6%; /* dark text on purple */
+
+  --secondary: 266 66% 90%;
+  --secondary-foreground: 250 18% 96%;
+
+  --background: 233 31% 6%; /* #0F0B1F approx */
+  --foreground: 0 0% 98%; /* #F9FAFB */
+
+  --muted: 240 10% 60%; /* muted text */
+  --muted-foreground: 220 6% 73%; /* #9CA3AF */
+
+  --card: 250 24% 12%; /* #1A1433 */
+  --card-foreground: 0 0% 98%;
+
+  --border: 250 24% 16%;
+  --input: 250 24% 14%;
+  --ring: var(--primary);
+
+  --color-primary-hex: #8B5CF6;
+  --color-secondary-hex: #A78BFA;
+  --color-bg-hex: #0F0B1F;
+  --color-footer-hex: #1E1B4B;
+  --color-surface-hex: #1A1433;
+  --color-text-muted-hex: #C7C9E1;
+  --color-text-primary-hex: #F9FAFB;
+}
+
+/* Feature card variants (light mode) */
+.card-visual { background: #F5F3FF; color: var(--body-text-hex); }
+.card-visual .card-accent { color: var(--color-primary-hex); }
+.card-whatif { background: #ECFDF5; color: var(--body-text-hex); }
+.card-whatif .card-accent { color: #047857; }
+.card-achievement { background: #FFFBEB; color: var(--body-text-hex); }
+.card-achievement .card-accent { color: #92400E; }
+.card-family { background: #FEF2F2; color: var(--body-text-hex); }
+.card-family .card-accent { color: #991B1B; }
+
+/* Feature card variants (dark mode) */
+.dark .card-visual { background: rgba(109,40,217,0.08); }
+.dark .card-whatif { background: rgba(4,120,87,0.06); }
+.dark .card-achievement { background: rgba(146,64,14,0.05); }
+.dark .card-family { background: rgba(153,27,27,0.05); }
+
+/* Hover interactions: subtle lift and shadow increase */
+.hover-lift { transition: transform 150ms ease, box-shadow 150ms ease; }
+.hover-lift:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(16,24,40,0.08); }
+
+/* Button hover rules (no color shift for cards) */
+.btn-hover-lift { transition: transform 150ms ease, box-shadow 150ms ease; }
+.btn-hover-lift:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(16,24,40,0.12); }
+
+body {
+  color: var(--body-text-hex);
+  background: var(--color-bg-hex);
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure input/placeholder text is readable (black) */
+input,
+textarea,
+select {
+  color: #000 !important;
+}
+
+input::placeholder,
+textarea::placeholder,
+select::placeholder {
+  color: #000 !important;
+  opacity: 0.6;
+}
+
+/* Responsive typography */
+html {
+  font-size: clamp(14px, 1.2vw + 12px, 18px);
+}
+
+/* Typography scale */
+h1, .h1 {
+  font-family: Inter, system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+h2, .h2 {
+  font-family: Inter, system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+h3, .h3 {
+  font-family: Inter, system-ui, sans-serif;
+  font-weight: 600;
+}
+p, span, li {
+  line-height: 1.6;
+  color: var(--muted-text-hex);
+}
+
+/* Improve focus styles for inputs to be a purple glow */
+input:focus, textarea:focus, select:focus {
+  box-shadow: 0 6px 18px rgba(109,40,217,0.10);
+  border-color: var(--color-primary-hex);
+}
+
+/* remove previous gradient; use palette background */
+
+/* Tailwind container fallback for wide screens */
+.container {
+  max-width: 1100px;
+}
+
+/* Button helpers for responsiveness */
+.btn-block-mobile {
+  width: 100%;
+}
+
+/* Primary CTA helper if needed for non-Tailwind cases */
+.btn-primary {
+  background-color: var(--color-primary-hex);
+  color: var(--color-text-primary-hex);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.08);
+  transition: transform 150ms ease, box-shadow 150ms ease, filter 150ms ease;
+}
+.btn-primary:hover {
+  background-color: #5B21B6; /* hover darker */
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(16,24,40,0.12);
+}
+
+/* Footer styling helpers for refined layout */
+.site-footer {
+  background: var(--color-footer);
+  color: var(--color-text-primary);
+}
+.site-footer .footer-heading {
+  color: var(--color-text-primary);
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+.site-footer a {
+  color: var(--color-text-muted);
+  transition: color 160ms ease, transform 160ms ease;
+}
+.site-footer a:hover {
+  color: var(--color-text-primary);
+  transform: translateY(-1px);
+}
+.site-footer .footer-top { padding-top: 3rem; padding-bottom: 2rem; }
+.site-footer .footer-bottom { padding-top: 2rem; padding-bottom: 2.5rem; }
+.site-footer .footer-divider { border-top: 1px solid rgba(255,255,255,0.08); margin-top: 1rem; }
+
+/* Improve focus outlines for accessibility */
+a:focus, button:focus, input:focus, select:focus, textarea:focus {
+  outline: 3px solid rgba(59,130,246,0.35);
+  outline-offset: 2px;
+}
+
+/* Header / nav styles */
+.site-header {
+  background: var(--color-primary-hex);
+  color: var(--color-text-primary-hex);
+}
+.site-header .nav-link {
+  color: #EDE9FE;
+  transition: color 300ms ease;
+  position: relative;
+  display: inline-block;
+  text-transform: uppercase;
+  margin: 0 8px;
+  padding: 8px 14px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  z-index: 1;
+}
+
+.site-header .nav-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-top: 2px solid #EDE9FE;
+  border-bottom: 2px solid #EDE9FE;
+  transform: scaleY(2);
+  opacity: 0;
+  transition: transform 300ms ease, opacity 300ms ease;
+  pointer-events: none;
+}
+
+.site-header .nav-link::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #262626;
+  transform: scale(0);
+  opacity: 0;
+  transition: transform 300ms ease, opacity 300ms ease;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.site-header .nav-link:hover {
+  color: #ffffff;
+}
+
+.site-header .nav-link:hover::before {
+  transform: scaleY(1);
+  opacity: 1;
+}
+
+.site-header .nav-link:hover::after {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.site-header .nav-link[aria-current="page"] { box-shadow: inset 0 -2px 0 var(--color-secondary-hex); }
+
+/* Auth toggle (segmented control for Login / Sign Up) */
+/* Auth toggle removed — header now uses separate Login / Sign Up buttons */
+
+/* Card visual improvements (default card spacing) */
+.card-responsive {
+  padding: 1rem;
+  border-radius: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .card-responsive {
+    padding: 1.5rem;
+  }
+}
+
+/* Hero background: soft purple-tinted abstract shapes with light gradient */
+.hero-section {
+  background-color: var(--color-bg-hex);
+  background-image:
+    radial-gradient(600px 400px at 10% 10%, rgba(109,40,217,0.06), transparent 18%),
+    radial-gradient(500px 320px at 90% 80%, rgba(139,92,246,0.045), transparent 18%),
+    linear-gradient(180deg, rgba(255,255,255,0.6), rgba(247,245,255,0.6));
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 18px;
+}
+.hero-section .hero-inner {
+  position: relative;
+  z-index: 2;
+}
+.hero-section::after {
+  /* subtle bottom fade */
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 140px;
+  background: linear-gradient(180deg, rgba(247,245,255,0), rgba(247,245,255,1));
+  pointer-events: none;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+}
+
+/* Hero illustration helper to ensure it scales and centers nicely */
+.hero-section img, .hero-section picture {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  object-fit: contain;
+}
+
+/* Site-level background: gentle purple-to-white gradient and soft decorative shapes */
+.site-bg {
+  position: relative;
+  background-image: linear-gradient(180deg, #f8f5ff 0%, #ffffff 100%);
+  /* ensure content sits above decorative shapes */
+  z-index: 0;
+}
+
+/* Floating decorative shapes layer */
+.site-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(circle at 8% 12%, rgba(109,40,217,0.12) 0 40px, transparent 120px),
+    radial-gradient(circle at 85% 20%, rgba(139,92,246,0.10) 0 36px, transparent 120px),
+    radial-gradient(circle at 30% 78%, rgba(139,92,246,0.08) 0 28px, transparent 100px),
+    radial-gradient(circle at 70% 62%, rgba(109,40,217,0.10) 0 34px, transparent 110px),
+    radial-gradient(circle at 50% 40%, rgba(109,40,217,0.06) 0 18px, transparent 80px);
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 1;
+}
+
+/* Very subtle dotted pattern for texture */
+.site-bg::after {
+  content: '';
+  position: absolute;
+  left: 4%;
+  top: 10%;
+  width: 92%;
+  height: 70%;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(rgba(109,40,217,0.03) 1px, transparent 1px);
+  background-size: 18px 18px;
+  opacity: 1;
+}
+
+/* Header wave intentionally removed to avoid changing header visuals */
+
+/* Ensure main content stacks above the decorative layers */
+main, .container, .hero-section, .site-footer {
+  position: relative;
+  z-index: 10;
+}
+
+/* Mobile menu overlay helpers
+   - Use very large z-index values to ensure the mobile menu appears above
+     background shapes, hero sections, cards, and any modals/popovers.
+   - Keep these rules isolated so they're easy to reason about and override.
+*/
+.mobile-menu-backdrop {
+  position: fixed;
+  inset: 0; /* cover full viewport */
+  background: rgba(0,0,0,0.36); /* dim backdrop */
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 5rem; /* space below header */
+  z-index: 99999; /* ensure this is above other layers */
+}
+
+.mobile-menu-card {
+  width: 100%;
+  max-width: 28rem; /* 448px */
+  background: #ffffff;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  box-shadow: 0 30px 60px rgba(16,24,40,0.32);
+  z-index: 100000; /* card itself sits above the backdrop */
+}
+
+/* Utility to prevent clipping by accidental overflow on container elements.
+   Use sparingly; we avoid setting overflow on top-level containers where
+   mobile overlays must be visible. */
+.allow-overflow {
+  overflow: visible !important;
+}
+
+/* Hero illustration card: subtle shadow and lift */
+.hero-illustration-card {
+  background: var(--color-surface);
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(16,24,40,0.06);
+  overflow: hidden;
+}
+
+/* Slightly stronger hover lift for the hero image (keeps subtlety) */
+.hero-illustration-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 28px 60px rgba(16,24,40,0.08);
+  transition: transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms ease;
+}
+
+/* Reduce opacity of decorative shapes on small screens to avoid distraction */
+@media (max-width: 640px) {
+  .site-bg::before, .site-bg::after { opacity: 0.6; background-size: auto; }
+}
+
+/* Responsive adjustments for hero, image, and decorative layers */
+.hero-illustration-card {
+  /* Prefer CSS aspect-ratio where supported for consistent layout */
+  aspect-ratio: 16 / 7;
+  width: 100%;
+  max-height: 720px;
+}
+
+/* Image behavior: contain on large screens, cover on small screens to avoid letterboxing */
+.hero-illustration-card .object-contain { object-fit: contain; }
+
+@media (max-width: 1024px) {
+  .hero-illustration-card { aspect-ratio: 4 / 3; max-height: 640px; }
+  .site-bg::before {
+    background-position: 6% 10%, 92% 78%, 30% 82%, 70% 62%, 50% 40%;
+    background-size: auto;
+    opacity: 0.12;
+  }
+  .site-bg::after { background-size: 20px 20px; }
+}
+
+@media (max-width: 640px) {
+  .hero-illustration-card { aspect-ratio: 3 / 2; max-height: 420px; border-radius: 12px; }
+  /* switch to cover on small screens so the card looks full and avoids empty space */
+  .hero-illustration-card .object-contain { object-fit: cover; }
+
+  /* reduce decorative noise on small screens */
+  .site-bg::before { opacity: 0.08; background-size: 220px 220px, 180px 180px, 140px 140px, 160px 160px, 120px 120px; }
+  .site-bg::after { opacity: 0.04; background-size: 14px 14px; }
+
+  /* tighter hero padding on small devices */
+  .hero-section { padding: 1.5rem; border-radius: 12px; }
+  .hero-section::after { height: 80px; }
+
+  /* ensure main container breathing room on very small screens */
+  main { padding-left: 1rem; padding-right: 1rem; }
+}
+
+/* Ensure next/image fill layer is clipped to the card and scales correctly */
+.hero-illustration-card > span { position: absolute; inset: 0; }
+.hero-illustration-card img { width: 100%; height: 100%; object-fit: inherit; }
